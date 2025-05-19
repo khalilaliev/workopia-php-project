@@ -19,13 +19,15 @@ function base_path($path = ''): string
  * @return void
  */
 
-function load_view($name)
+function load_view($name, $data = [])
 {
   $view_path = base_path("views/{$name}.view.php");
 
   // inspect($view_path);
 
   if (file_exists($view_path)) {
+    extract($data);
+
     require $view_path;
   } else {
     echo "Path '{$name} not found!'";
@@ -76,4 +78,16 @@ function inspect_and_die($value)
   var_dump($value);
   echo '</pre>';
   die();
+}
+
+/**
+ * Format Salary
+ * 
+ * @param string $salary
+ * @return string
+ */
+
+function format_salary($salary)
+{
+  return '$' . number_format(floatval($salary));
 }
