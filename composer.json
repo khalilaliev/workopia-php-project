@@ -1,0 +1,15 @@
+{
+  "name": "khalilaliev/workopia",
+  "description": "",
+  "authors": [
+    {
+      "name": "khalil"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Framework\\": "Framework/",
+      "App\\": "App/"
+    }
+  }
+}

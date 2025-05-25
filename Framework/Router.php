@@ -1,5 +1,7 @@
 <?php
 
+namespace Framework;
+
 class Router
 {
   protected $routes = [];
@@ -49,7 +51,7 @@ class Router
   {
     foreach ($this->routes as $route) {
       if ($route['uri'] === $uri && $route['method'] === $method) {
-        require base_path($route['controller']);
+        require base_path('App/' . $route['controller']);
         return;
       }
     }

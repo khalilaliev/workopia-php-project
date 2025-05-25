@@ -21,7 +21,7 @@ function base_path($path = ''): string
 
 function load_view($name, $data = [])
 {
-  $view_path = base_path("views/{$name}.view.php");
+  $view_path = base_path("App/views/{$name}.view.php");
 
   // inspect($view_path);
 
@@ -43,7 +43,7 @@ function load_view($name, $data = [])
 
 function load_partial($name)
 {
-  $view_partial = base_path("views/partials/{$name}.php");
+  $view_partial = base_path("App/views/partials/{$name}.php");
   if (file_exists($view_partial)) {
     require $view_partial;
   } else {

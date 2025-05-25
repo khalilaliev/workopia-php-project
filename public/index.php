@@ -1,8 +1,15 @@
 <?php
-
+require __DIR__ . '/../vendor/autoload.php';
 require '../helpers.php';
-require base_path('Database.php');
-require base_path('Router.php');
+
+use Framework\Router;
+
+// spl_autoload_register(function ($class) {
+//   $path = base_path('Framework/' . $class . '.php');
+//   if (file_exists($path)) {
+//     require $path;
+//   }
+// });
 
 $router = new Router();
 $routes = require base_path('routes.php');
