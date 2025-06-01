@@ -46,15 +46,44 @@ class Router
   // }
 
   /* Route the request */
-  public function route(string $uri, string $method): void
+  public function route(string $uri): void
   {
+    $request_method = $_SERVER['REQUEST_METHOD'];
+
     foreach ($this->routes as $route) {
-      if ($route['uri'] === $uri && $route['method'] === $method) {
-        $controller = 'App\\Controllers\\' . $route['controller'];
-        $controller_method = $route['controller_method'];
-        $controller_instance = new $controller();
-        $controller_instance->$controller_method();
-        return;
+
+      // Split curr URI segment into array
+
+      $uri_segment = explode('/', trim($uri, '/'));
+
+      // Split the rout URI  into segment
+
+      $route_segment = explode('/', trim($route['uri'], '/'));
+
+      $is_match = true;
+
+      if (count($uri_segment) === count($route_segment) && strtoupper($route['method'] === $request_method)) {
+        $params = [];
+
+        $is_match = true;
+
+        for ($i = 0; $i < count($uri_segment); $i++) {
+          if ($route_segment[$i] !== $uri_segment[$i] && !preg_match('/\{(.+?)\}/', $route_segment[$i])) {
+            $is_match = false;
+            break;
+          }
+          if (preg_match('/\{(.+?)\}/', $route_segment[$i], $matches)) {
+            $params[$matches[1]] = $uri_segment[$i];
+          }
+        }
+
+        if ($is_match) {
+          $controller = 'App\\Controllers\\' . $route['controller'];
+          $controller_method = $route['controller_method'];
+          $controller_instance = new $controller();
+          $controller_instance->$controller_method($params);
+          return;
+        }
       }
     }
     ErrorController::not_found();
