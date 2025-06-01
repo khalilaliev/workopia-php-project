@@ -6,12 +6,16 @@ class Router
 {
   protected $routes = [];
 
-  public function register_method(string $method, string $uri, string $controller): void
+  public function register_method(string $method, string $uri, string $action): void
   {
+    list($controller, $controller_method) = explode('@', $action);
+
+
     $this->routes[] = [
       'method' => $method,
       'uri' => $uri,
-      'controller' => $controller
+      'controller' => $controller,
+      'controller_method' => $controller_method
     ];
   }
 
@@ -21,23 +25,23 @@ class Router
     $this->register_method('GET', $uri, $controller);
   }
 
-  /* Add a POST route */
-  public function post(string $uri, string $controller): void
-  {
-    $this->register_method('POST', $uri, $controller);
-  }
+  // /* Add a POST route */
+  // public function post(string $uri, string $controller): void
+  // {
+  //   $this->register_method('POST', $uri, $controller);
+  // }
 
-  /* Add a PUT route */
-  public function put(string $uri, string $controller): void
-  {
-    $this->register_method('PUT', $uri, $controller);
-  }
+  // /* Add a PUT route */
+  // public function put(string $uri, string $controller): void
+  // {
+  //   $this->register_method('PUT', $uri, $controller);
+  // }
 
-  /* Add a DELETE route */
-  public function delete(string $uri, string $controller): void
-  {
-    $this->register_method('DELETE', $uri, $controller);
-  }
+  // /* Add a DELETE route */
+  // public function delete(string $uri, string $controller): void
+  // {
+  //   $this->register_method('DELETE', $uri, $controller);
+  // }
 
   public function error_page(int $http_code = 404): void
   {
@@ -51,7 +55,10 @@ class Router
   {
     foreach ($this->routes as $route) {
       if ($route['uri'] === $uri && $route['method'] === $method) {
-        require base_path('App/' . $route['controller']);
+        $controller = 'App\\Controllers\\' . $route['controller'];
+        $controller_method = $route['controller_method'];
+        $controller_instance = new $controller();
+        $controller_instance->$controller_method();
         return;
       }
     }
