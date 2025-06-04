@@ -5,7 +5,7 @@ namespace Framework;
 class Validation
 {
   // Validate user
-  public static function string(string $value, int $min, int $max): string
+  public static function string(string $value, int $min = 1, int $max = INF): string
   {
     if (is_string($value)) {
       $value = trim($value);

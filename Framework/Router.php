@@ -27,11 +27,11 @@ class Router
     $this->register_method('GET', $uri, $controller);
   }
 
-  // /* Add a POST route */
-  // public function post(string $uri, string $controller): void
-  // {
-  //   $this->register_method('POST', $uri, $controller);
-  // }
+  /* Add a POST route */
+  public function post(string $uri, string $controller): void
+  {
+    $this->register_method('POST', $uri, $controller);
+  }
 
   // /* Add a PUT route */
   // public function put(string $uri, string $controller): void
