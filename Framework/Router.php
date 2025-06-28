@@ -39,16 +39,22 @@ class Router
   //   $this->register_method('PUT', $uri, $controller);
   // }
 
-  // /* Add a DELETE route */
-  // public function delete(string $uri, string $controller): void
-  // {
-  //   $this->register_method('DELETE', $uri, $controller);
-  // }
+  /* Add a DELETE route */
+  public function delete(string $uri, string $controller): void
+  {
+    $this->register_method('DELETE', $uri, $controller);
+  }
 
   /* Route the request */
   public function route(string $uri): void
   {
     $request_method = $_SERVER['REQUEST_METHOD'];
+
+    if ($request_method === 'POST' && isset($_POST['_method'])) {
+      // Override the request method 
+
+      $request_method = strtoupper($_POST['_method']);
+    }
 
     foreach ($this->routes as $route) {
 
