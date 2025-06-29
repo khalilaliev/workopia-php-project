@@ -33,11 +33,11 @@ class Router
     $this->register_method('POST', $uri, $controller);
   }
 
-  // /* Add a PUT route */
-  // public function put(string $uri, string $controller): void
-  // {
-  //   $this->register_method('PUT', $uri, $controller);
-  // }
+  /* Add a PUT route */
+  public function put(string $uri, string $controller): void
+  {
+    $this->register_method('PUT', $uri, $controller);
+  }
 
   /* Add a DELETE route */
   public function delete(string $uri, string $controller): void
