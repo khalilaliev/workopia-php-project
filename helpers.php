@@ -41,10 +41,11 @@ function load_view($name, $data = [])
  * @return void
  */
 
-function load_partial($name)
+function load_partial($name, $data = [])
 {
   $view_partial = base_path("App/views/partials/{$name}.php");
   if (file_exists($view_partial)) {
+    extract($data);
     require $view_partial;
   } else {
     echo " Path '{$name} not found!'";
