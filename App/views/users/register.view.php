@@ -15,6 +15,7 @@
           type="text"
           name="name"
           placeholder="Full Name"
+          value="<?= $user['name'] ?? '' ?>"
           class="w-full px-4 py-2 border rounded focus:outline-none" />
       </div>
       <div class="mb-4">
@@ -22,6 +23,7 @@
           type="email"
           name="email"
           placeholder="Email Address"
+          value="<?= $user['email'] ?? '' ?>"
           class="w-full px-4 py-2 border rounded focus:outline-none" />
       </div>
       <div class="mb-4">
@@ -29,13 +31,15 @@
           type="text"
           name="city"
           placeholder="City"
+          value="<?= $user['city'] ?? '' ?>"
           class="w-full px-4 py-2 border rounded focus:outline-none" />
       </div>
       <div class="mb-4">
         <input
           type="text"
-          name="state"
-          placeholder="State"
+          name="kanton"
+          placeholder="Kanton"
+          value="<?= $user['kanton'] ?? '' ?>"
           class="w-full px-4 py-2 border rounded focus:outline-none" />
       </div>
       <div class="mb-4">

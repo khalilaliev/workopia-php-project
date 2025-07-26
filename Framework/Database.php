@@ -36,7 +36,7 @@ class Database
    * Query the database
    * 
    * @param string $query
-   * @return PDOStatement
+   * @return PDOkantonment
    * @throws PDOException
    */
   public function query($query, $params = [])

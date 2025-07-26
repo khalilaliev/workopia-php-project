@@ -92,9 +92,9 @@
       <div class="mb-4">
         <input
           type="text"
-          name="state"
-          value="<?= $listing['state'] ?? '' ?>"
-          placeholder="State"
+          name="kanton"
+          value="<?= $listing['kanton'] ?? '' ?>"
+          placeholder="Kanton"
           class="w-full px-4 py-2 border rounded focus:outline-none" />
       </div>
       <div class="mb-4">

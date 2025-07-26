@@ -53,11 +53,11 @@ class ListingController
 
   public function store()
   {
-    $allowed_fields = ['title', 'description', 'salary', 'tags', 'requirements', 'benefits', 'company', 'address', 'city', 'state', 'phone', 'email'];
+    $allowed_fields = ['title', 'description', 'salary', 'tags', 'requirements', 'benefits', 'company', 'address', 'city', 'kanton', 'phone', 'email'];
     $new_listing_data = array_intersect_key($_POST, array_flip($allowed_fields));
     $new_listing_data['user_id'] = 1;
     $new_listing_data = array_map('sanitize', $new_listing_data);
-    $required_field = ['title', 'description', 'email', 'city', 'state'];
+    $required_field = ['title', 'description', 'email', 'city', 'kanton'];
     $errors = [];
 
     foreach ($required_field as $field) {
@@ -161,13 +161,13 @@ class ListingController
       return;
     }
 
-    $allowed_fields = ['title', 'description', 'salary', 'tags', 'requirements', 'benefits', 'company', 'address', 'city', 'state', 'phone', 'email'];
+    $allowed_fields = ['title', 'description', 'salary', 'tags', 'requirements', 'benefits', 'company', 'address', 'city', 'kanton', 'phone', 'email'];
     $update_values = [];
     $update_values = array_intersect_key($_POST, array_flip($allowed_fields));
 
     $update_values = array_map('sanitize', $update_values);
 
-    $required_fields = ['title', 'description', 'city', 'state', 'salary', 'email'];
+    $required_fields = ['title', 'description', 'city', 'kanton', 'salary', 'email'];
 
     $errors = [];
 

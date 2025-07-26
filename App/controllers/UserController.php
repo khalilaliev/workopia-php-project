@@ -48,7 +48,7 @@ class UserController
     $name = $_POST['name'];
     $email = $_POST['email'];
     $city = $_POST['city'];
-    $state = $_POST['state'];
+    $kanton = $_POST['kanton'];
     $password = $_POST['password'];
     $password_confirmation = $_POST['password_confirmation'];
 
@@ -79,13 +79,46 @@ class UserController
           'name' => $name,
           'email' => $email,
           'city' => $city,
-          'state' => $state,
+          'kanton' => $kanton,
         ]
       ]);
       exit;
-    } else {
-
-      inspect_and_die('store');
     }
+
+    // Check if email exist
+
+    $params = [
+      'email' => $email
+    ];
+
+    $user = $this->db->query('SELECT * FROM users WHERE email = :email', $params)->fetch();
+
+    if ($user) {
+      $errors['email'] = 'Email already exists';
+      load_view('users/register', [
+        'errors' => $errors,
+        'user' => [
+          'name' => $name,
+          'email' => $email,
+          'city' => $city,
+          'kanton' => $kanton,
+        ]
+      ]);
+      exit;
+    }
+
+    // Create user acc
+
+    $params = [
+      'name' => $name,
+      'email' => $email,
+      'city' => $city,
+      'kanton' => $kanton,
+      'password' => password_hash($password, PASSWORD_DEFAULT)
+    ];
+
+    $this->db->query('INSERT INTO users (name, email, city, kanton, password) VALUES (:name, :email, :city, :kanton, :password)', $params);
+
+    redirect('/');
   }
 }
