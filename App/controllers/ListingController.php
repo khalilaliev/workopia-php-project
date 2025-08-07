@@ -101,6 +101,9 @@ class ListingController
 
       $this->db->query($query, $new_listing_data);
 
+      Session::set_flash_message('success_message', 'Listing created successfully');
+
+
       redirect('/listings');
     }
   }
@@ -123,7 +126,7 @@ class ListingController
 
     //Authorization 
     if (!Authorization::is_owner($listing->user_id)) {
-      $_SESSION['error_message'] = 'You are not authorized to delete this listing';
+      Session::set_flash_message('error_message', 'You are not authorized to delete this listing');
       return redirect('/listings/' . $listing->id);
     }
 
@@ -131,7 +134,8 @@ class ListingController
 
     // Flash Message
 
-    $_SESSION['success_message'] = 'Listing deleted successfully';
+    Session::set_flash_message('success_message', 'Listing deleted successfully');
+
 
     redirect('/listings');
   }
@@ -209,7 +213,7 @@ class ListingController
 
       $this->db->query($update_query, $update_values);
 
-      $_SESSION['success_message'] = 'Listing updated';
+      Session::set_flash_message('success_message', 'Listing updated');
 
       redirect('/listings/' . $id);
     }

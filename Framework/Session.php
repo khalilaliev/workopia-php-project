@@ -79,4 +79,30 @@ class Session
     session_unset();
     session_destroy();
   }
+
+  /**
+   * Set a flash message
+   * 
+   * @param string $message
+   * @param string $key
+   * @return void
+   */
+  public static function set_flash_message($key, $message)
+  {
+    self::set('flash_' . $key, $message);
+  }
+
+  /**
+   * Get a flash message and unset
+   * 
+   * @param mixed $default
+   * @param string $key
+   * @return string
+   */
+  public static function get_flash_message($key, $default = null)
+  {
+    $message = self::get('flash_' . $key, $default);
+    self::clear('flash_' . $key);
+    return $message;
+  }
 }
