@@ -140,7 +140,7 @@ class ListingController
     redirect('/listings');
   }
 
-  public function edit($params): void
+  public function edit($params)
   {
     $id = $params['id'] ?? '';
 
@@ -149,6 +149,12 @@ class ListingController
     ];
 
     $listing = $this->db->query('SELECT * FROM listings WHERE id = :id', $params)->fetch();
+
+    //Authorization 
+    if (!Authorization::is_owner($listing->user_id)) {
+      Session::set_flash_message('error_message', 'You are not authorized to update this listing');
+      return redirect('/listings/' . $listing->id);
+    }
 
     if (!$listing) {
       ErrorController::not_found('Listing not found');
@@ -173,6 +179,12 @@ class ListingController
     if (!$listing) {
       ErrorController::not_found('Listing not found');
       return;
+    }
+
+    //Authorization 
+    if (!Authorization::is_owner($listing->user_id)) {
+      Session::set_flash_message('error_message', 'You are not authorized to update this listing');
+      return redirect('/listings/' . $listing->id);
     }
 
     $allowed_fields = ['title', 'description', 'salary', 'tags', 'requirements', 'benefits', 'company', 'address', 'city', 'kanton', 'phone', 'email'];
@@ -217,5 +229,32 @@ class ListingController
 
       redirect('/listings/' . $id);
     }
+  }
+
+  /**
+   * Search listing by keyword/location
+   * 
+   * @return void
+   */
+  public function search()
+  {
+    $keywords = isset($_GET['keywords']) ? trim($_GET['keywords']) : '';
+    $location = isset($_GET['location']) ? trim($_GET['location']) : '';
+
+    $query = "SELECT * FROM listings WHERE (title LIKE :keywords OR description LIKE :keywords OR tags LIKE :keywords OR company LIKE :keywords) 
+    AND (city LIKE :location OR kanton LIKE :location)";
+
+    $params = [
+      'keywords' => "%{$keywords}%",
+      'location' => "%{$location}%"
+    ];
+
+    $listings = $this->db->query($query, $params)->fetchAll();
+
+    load_view('/listings/index', [
+      'listings' => $listings,
+      'keywords' => $keywords,
+      'location' => $location
+    ]);
   }
 }
